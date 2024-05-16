@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 """
 This module deals with log parsing in Python
+
 """
 import sys
 import signal
 
-
 total_file_size = 0
 status_code_counts = {}
 valid_status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
+
 
 def print_metrics():
     """
@@ -20,6 +21,7 @@ def print_metrics():
         if status_code_counts[code] > 0:
             print(f"{code}: {status_code_counts[code]}")
 
+
 def signal_handler(sig, frame):
     """
     Handles keyboard interruption signal
@@ -27,6 +29,7 @@ def signal_handler(sig, frame):
     """
     print_metrics()
     sys.exit(0)
+
 
 signal.signal(signal.SIGINT, signal_handler)
 
