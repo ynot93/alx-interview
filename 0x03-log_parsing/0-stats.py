@@ -1,68 +1,48 @@
 #!/usr/bin/python3
 """
-This module deals with log parsing in Python
+This module is about log parsing in Python
 
 """
 import sys
-import signal
 
-total_file_size = 0
-status_code_counts = {}
-valid_status_codes = [200, 301, 400, 401, 403, 404, 405, 500]
-
-
-def print_metrics():
-    """
-    Prints the current metrics
-
-    """
-    print(f"File size: {total_file_size}")
-    for code in sorted(status_code_counts.keys()):
-        if status_code_counts[code] > 0:
-            print(f"{code}: {status_code_counts[code]}")
-
-
-def signal_handler(sig, frame):
-    """
-    Handles keyboard interruption signal
-
-    """
-    print_metrics()
-    sys.exit(0)
-
-
-signal.signal(signal.SIGINT, signal_handler)
-
-line_count = 0
+status_codes_count = {'200': 0,
+                      '301': 0,
+                      '400': 0,
+                      '401': 0,
+                      '403': 0,
+                      '404': 0,
+                      '405': 0,
+                      '500': 0}
+total_size = 0
+count = 0
 
 try:
     for line in sys.stdin:
-        try:
-            parts = line.split()
-            if len(parts) < 7:
-                continue
+        parts = line.split(" ")
 
-            ip = parts[0]
-            status_code = int(parts[-2])
+        if len(parts) > 4:
+            status_code = parts[-2]
             file_size = int(parts[-1])
 
-            if status_code not in valid_status_codes:
-                continue
+            if status_code in status_codes_count.keys():
+                status_codes_count[status_code] += 1
 
-            total_file_size += file_size
-            if status_code in status_code_counts:
-                status_code_counts[status_code] += 1
-            else:
-                status_code_counts[status_code] = 1
+            total_size += file_size
+            count += 1
 
-            line_count += 1
+        if count == 10:
+            count = 0
+            print('File size: {}'.format(total_size))
 
-            if line_count % 10 == 0:
-                print_metrics()
+            for key, value in sorted(status_codes_count.items()):
+                if value != 0:
+                    print('{}: {}'.format(key, value))
 
-        except ValueError:
-            continue
+except Exception as err:
+    pass
 
-except KeyboardInterrupt:
-    print_metrics()
-    sys.exit(0)
+finally:
+    print('File size: {}'.format(total_size))
+    for key, value in sorted(status_codes_count.items()):
+        if value != 0:
+            print('{}: {}'.format(key, value))
