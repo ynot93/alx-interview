@@ -17,4 +17,8 @@ def validUTF8(data):
         return False
     except ValueError:
         return False
+    except TypeError:
+        return False
+    except AttributeError:
+        return False
     return True
