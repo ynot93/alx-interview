@@ -13,30 +13,33 @@ if (!movieId) {
 const filmUrl = `https://swapi.dev/api/films/${movieId}/`;
 
 // Make the request to get the movie details
-request(filmUrl, { json: true }, (err, res, body) => {
-  if (err) {
-    return console.error('Error fetching movie data:', err);
-  }
+request(filmURL + filmNum, async function (err, res, body) {
+    if (err) {
+        console.error('Error fetching character data:', err);
+        return;
+    }
 
-  if (res.statusCode !== 200) {
-    return console.error('Failed to fetch movie data, status code:', res.statusCode);
-  }
+    if (res.statusCode !== 200) {
+        console.error('Failed to fetch character data, status code:', res.statusCode);
+        return;
+    }
+    const charUrls = JSON.parse(body).characters;
 
-  // Get the list of character URLs
-  const characterUrls = body.characters;
-
-  // Fetch and print each character's name
-  characterUrls.forEach((characterUrl) => {
-    request(characterUrl, { json: true }, (err, res, body) => {
-      if (err) {
-        return console.error('Error fetching character data:', err);
-      }
-
-      if (res.statusCode !== 200) {
-        return console.error('Failed to fetch character data, status code:', res.statusCode);
-      }
-
-      console.log(body.name);
-    });
+    for (const charURL of charUrls) {
+      await new Promise(function (resolve, reject) {
+        request(charURL, function (err, res, body) {
+					if (err) {
+            console.error('Error fetching character data:', err);
+            return;
+          }
+        
+					if (res.statusCode !== 200) {
+						console.error('Failed to fetch character data, status code:', res.statusCode);
+						return;
+					}
+          console.log(JSON.parse(body).name);
+          resolve();
+        });
+      });
+    }
   });
-});
