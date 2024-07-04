@@ -3,6 +3,7 @@
 Prime Game Module
 """
 
+
 def isWinner(x: int, nums: list) -> str:
     """
     Return name of the player that won the most rounds
@@ -30,23 +31,23 @@ def isWinner(x: int, nums: list) -> str:
     for n in nums:
         remaining = set(range(1, n + 1))
         turn = "Maria"
-        
+
         while True:
             available_prime = next((p for p in primes if p in remaining), None)
-            
+
             if available_prime is None:
                 if turn == "Maria":
                     ben_won += 1
                 else:
                     maria_won += 1
                 break
-            
+
             multiple = available_prime
             while multiple <= n:
                 if multiple in remaining:
                     remaining.remove(multiple)
                 multiple += available_prime
-            
+
             turn = "Ben" if turn == "Maria" else "Maria"
 
     if maria_won > ben_won:
