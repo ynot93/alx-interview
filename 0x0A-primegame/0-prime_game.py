@@ -2,15 +2,13 @@
 """
 Prime Game Module
 """
-from typing import List
 
-
-def isWinner(x: int, nums: List[int]) -> str:
+def isWinner(x: int, nums: list) -> str:
     """
     Return name of the player that won the most rounds
     of the prime game
     """
-    def generate_primes(max_n: int) -> List[int]:
+    def generate_primes(max_n: int) -> list:
         """
         Sieve of Eratosthenes
         """
