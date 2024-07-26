@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """
-This module contains a function that returns the perimeter of an island in a grid
+This module contains a function that returns the perimeter of an island
 
 """
 
 
-def island_perimeter(grid: list[list[str]]) -> int:
+def island_perimeter(grid):
+    """A function that outputs the perimeter of an island described by grid"""
     """
     Solve island perimeter problem
     """
