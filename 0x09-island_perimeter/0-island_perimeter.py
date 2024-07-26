@@ -5,6 +5,9 @@ Island perimeter module
 
 
 def island_perimeter(grid: list[list[str]]) -> int:
+    """
+    Solve island perimeter problem
+    """
     if not grid or not grid[0]:
         return 0
 
