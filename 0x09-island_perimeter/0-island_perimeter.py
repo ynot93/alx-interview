@@ -2,10 +2,9 @@
 """
 Island perimeter module
 """
-from typing import List
 
 
-def island_perimeter(grid: List[List[str]]) -> int:
+def island_perimeter(grid: list[list[str]]) -> int:
     if not grid or not grid[0]:
         return 0
 
